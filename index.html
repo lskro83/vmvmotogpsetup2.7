@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotoGP Setup Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <header>
+        <h1>MotoGP Setup Manager</h1>
+    </header>
+
+    <!-- ONGLETS -->
+    <div id="tab-accueil" class="tab-content active">
+        <form id="formSetup">
+            <div class="section-title">Informations Générales</div>
+            <input type="text" id="auteurInput" placeholder="Votre Pseudo (Auteur)" required>
+            <input type="text" id="motoInput" placeholder="Moto (ex: Ducati Desmosedici)" required>
+            <input type="text" id="circuitNomInput" placeholder="Nom du Circuit (ex: Le Mans)" required>
+
+            <div class="section-title">Pneumatiques</div>
+            <select id="pneuAvant"><option>Soft</option><option selected>Medium</option><option>Hard</option></select>
+            <select id="pneuArriere"><option>Soft</option><option selected>Medium</option><option>Hard</option></select>
+
+            <div class="section-title">Suspension Avant</div>
+            <input type="number" id="suspAvPre" value="4" min="1" max="7">
+            <input type="number" id="suspAvHui" value="4" min="1" max="7">
+            <input type="number" id="suspAvRes" value="4" min="1" max="7">
+            <input type="number" id="suspAvCom" value="4" min="1" max="7">
+            <input type="number" id="suspAvExt" value="4" min="1" max="7">
+
+            <div class="section-title">Suspension Arrière</div>
+            <input type="number" id="suspArPre" value="4" min="1" max="7">
+            <input type="number" id="suspArRes" value="4" min="1" max="7">
+            <input type="number" id="suspArCL" value="4" min="1" max="7">
+            <input type="number" id="suspArCR" value="4" min="1" max="7">
+            <input type="number" id="suspArExt" value="4" min="1" max="7">
+
+            <div class="section-title">Boîte de Vitesse</div>
+            <input type="number" id="bv1" value="4" min="1" max="7">
+            <input type="number" id="bv2" value="4" min="1" max="7">
+            <input type="number" id="bv3" value="4" min="1" max="7">
+            <input type="number" id="bv4" value="4" min="1" max="7">
+            <input type="number" id="bv5" value="4" min="1" max="7">
+            <input type="number" id="bv6" value="4" min="1" max="7">
+            <input type="number" id="bvFinal" value="4" min="1" max="7">
+            <input type="number" id="antiDribble" value="4" min="1" max="7">
+
+            <div class="section-title">Freins & Électronique</div>
+            <input type="text" id="freinAvant" value="340mm Standard">
+            <input type="text" id="freinArriere" value="220mm Standard">
+            <input type="number" id="ecuTcs" value="3" min="1" max="5">
+            <input type="number" id="ecuAw" value="3" min="1" max="5">
+            <input type="number" id="ecuEbs" value="3" min="1" max="5">
+
+            <div class="section-title">Géométrie</div>
+            <input type="number" id="geoCha" value="4" min="1" max="7">
+            <input type="number" id="geoDep" value="4" min="1" max="7">
+            <input type="number" id="geoPla" value="4" min="1" max="7">
+            <input type="number" id="geoBra" value="4" min="1" max="7">
+
+            <button type="submit" style="margin-top:20px;">Publier le Setup sur le Cloud</button>
+        </form>
+    </div>
+
+    <!-- ONGLETS SETUPS PUBLICS -->
+    <div id="tab-setups" class="tab-content">
+        <div class="section-title">Setups en Ligne</div>
+        <input type="text" id="filtreInput" placeholder="Filtrer par moto ou auteur...">
+        <select id="filtreCircuitSelect">
+            <option value="">Tous les circuits</option>
+            <option value="Le Mans">Le Mans</option>
+            <option value="Mugello">Mugello</option>
+            <option value="Catalunya">Catalunya</option>
+        </select>
+        <div id="listeSetups" style="margin-top:15px;">Chargement...</div>
+    </div>
+
+    <!-- ONGLET PROFIL -->
+    <div id="tab-profil" class="tab-content">
+        <div class="section-title">Mon Profil</div>
+        <p id="statutSession" style="font-size:12px; margin-bottom:10px; color:#aaa;">Statut : Déconnecté</p>
+        <input type="text" id="pseudoActifInput" placeholder="Entrez votre pseudo...">
+        <button id="btnToggleProfil">Se connecter</button>
+    </div>
+
+    <!-- ONGLET COACH IA -->
+    <div id="tab-coach" class="tab-content">
+        <div class="section-title">Coach IA MotoGP</div>
+        <div style="display:flex; gap:5px; margin-bottom:10px;">
+            <button id="btnCoachRapide" class="active" style="flex:1;">Rapide</button>
+            <button id="btnCoachComplet" style="flex:1;">Complet</button>
+        </div>
+        <div id="viewCoachRapide" class="coach-view">
+            <select id="phaseSelect">
+                <option value="Entree">Entrée de virage</option>
+                <option value="Milieu">Milieu de virage</option>
+                <option value="Sortie">Sortie de virage</option>
+            </select>
+            <select id="problemeSelect" style="margin-top:10px;"></select>
+            <div id="conseilBox" class="result-box" style="margin-top:10px;">Sélectionne un problème.</div>
+        </div>
+        <div id="viewCoachComplet" class="coach-view" style="display:none;">
+            <input type="text" id="aiCircuitNom" placeholder="Nom du circuit">
+            <select id="aiMeteo"><option>Sec - Chaud</option><option>Sec - Frais</option><option>Humide / Pluie</option></select>
+            <button id="btnGenererSetupAI" style="margin-top:10px;">Générer le Setup Complet</button>
+            <div id="setupCompletBox" class="result-box" style="display:none; margin-top:10px;"></div>
+        </div>
+    </div>
+
+    <!-- BARRE DE NAVIGATION -->
+    <nav class="nav-bar">
+        <button class="nav-tab active" id="btn-accueil">Saisie</button>
+        <button class="nav-tab" id="btn-setups">Setups</button>
+        <button class="nav-tab" id="btn-profil">Profil</button>
+        <button class="nav-tab" id="btn-coach">Coach IA</button>
+    </nav>
+
+    <!-- MODALE -->
+    <div id="modalDetails" class="modal">
+        <div class="modal-content">
+            <span id="btnCloseModal" class="close-modal">&times;</span>
+            <h3 id="modalTitre" style="color:#e10600; margin-bottom:10px;">Détails</h3>
+            <div id="modalCorps" style="font-size:13px; line-height:1.5;"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
